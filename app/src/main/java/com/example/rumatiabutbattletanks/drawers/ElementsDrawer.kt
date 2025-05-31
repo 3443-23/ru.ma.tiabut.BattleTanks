@@ -3,9 +3,7 @@ package com.example.rumatiabutbattletanks.drawers
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import com.example.rumatiabutbattletanks.CELL_SIZE
-import com.example.rumatiabutbattletanks.R
 import com.example.rumatiabutbattletanks.enums.Material
 import com.example.rumatiabutbattletanks.models.Coordinate
 import com.example.rumatiabutbattletanks.models.Element
@@ -37,7 +35,7 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    fun drawElementsList(elements: List<Element>?) {
+    fun drawElementsList(elements: Unit?) {
         if (elements == null) {
             return
         }
@@ -90,14 +88,18 @@ class ElementsDrawer(val container: FrameLayout) {
 
 
 
-    private fun removeIfSingleInstance() {
-        elementsOnContainer.firstOrNull { it.material == Material.EAGLE }?.coordinate?.let {
-            eraseView(it)
+    private fun removeUnwantedInstances() {
+        if (currentMaterial.elementsAmountOnScreen != 0) {
+            val erasingElements = elementsOnContainer.filter { it.material == currentMaterial }
+            if (erasingElements.size >= currentMaterial.elementsAmountOnScreen) {
+                eraseView(erasingElements[0].coordinate)
+            }
         }
     }
 
+
     private fun drawView(coordinate: Coordinate) {
-        removeIfSingleInstance()
+        removeUnwantedInstances()
         val view = ImageView(container.context)
         val layoutParams = FrameLayout.LayoutParams(currentMaterial.width*CELL_SIZE, currentMaterial.height*CELL_SIZE)
         view.setImageResource(currentMaterial.image)
