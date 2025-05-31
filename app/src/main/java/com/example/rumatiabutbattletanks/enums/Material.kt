@@ -9,4 +9,5 @@ enum class Material(
     BRICK(false, bulletCanGoThrough = false, simpleBulletCanDestroy = true),
     CONCRETE(false, bulletCanGoThrough = false, simpleBulletCanDestroy = false),
     GRASS(true, bulletCanGoThrough = true, simpleBulletCanDestroy = false),
+    EAGLE(tankCanGoThrough = false, bulletCanGoThrough = false, simpleBulletCanDestroy = true)
 }
