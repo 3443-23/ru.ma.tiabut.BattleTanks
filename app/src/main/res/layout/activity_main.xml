@@ -55,14 +55,6 @@
             android:src="@drawable/grass"
             android:layout_width="@dimen/cell_size"
             android:layout_height="@dimen/cell_size"/>
-
-        <ImageView
-            android:id="@+id/editor_eagle"
-            android:layout_width="@dimen/cell_size"
-            android:layout_height="@dimen/cell_size"
-            android:layout_margin="8dp"
-            android:src="@drawable/eagle"/>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

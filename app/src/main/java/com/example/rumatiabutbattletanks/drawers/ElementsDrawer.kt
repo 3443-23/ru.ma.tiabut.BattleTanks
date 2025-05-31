@@ -39,11 +39,11 @@ class ElementsDrawer(val container: FrameLayout) {
         if (elements == null) {
             return
         }
-
         for (element in elements) {
             currentMaterial = element.material
             drawElement(element)
         }
+        currentMaterial = Material.EMPTY
     }
 
     private fun replaceView(coordinate: Coordinate) {

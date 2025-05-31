@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.FrameLayout
 import com.example.rumatiabutbattletanks.CELL_SIZE
 import com.example.rumatiabutbattletanks.binding
+import com.example.rumatiabutbattletanks.drawers.BulletDrawer
 import com.example.rumatiabutbattletanks.enums.Direction
 import com.example.rumatiabutbattletanks.enums.Material
 import com.example.rumatiabutbattletanks.utils.checkViewCanMoveThroughBorder
@@ -13,7 +14,8 @@ import kotlin.random.Random
 
 class Tank(
     val element: Element,
-    var direction: Direction
+    var direction: Direction,
+    val bulletDrawer: BulletDrawer
 ) {
 
     fun move(direction: Direction, container: FrameLayout, elementsOnContainer: List<Element>) {

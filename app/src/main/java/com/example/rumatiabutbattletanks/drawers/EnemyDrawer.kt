@@ -60,7 +60,8 @@ class EnemyDrawer(
             Element(
                 material = Material.ENEMY_TANK,
                 coordinate = currentCoordinate
-            ), Direction.DOWN
+            ), Direction.DOWN,
+            BulletDrawer(container)
         )
 
         enemyTank.element.drawElement(container)
@@ -74,6 +75,7 @@ class EnemyDrawer(
                 removeInconsistentTanks()
                 tanks.forEach {
                     it.move(it.direction, container, elements)
+                    it.bulletDrawer.makeBulletMove(it, elements)
                 }
                 Thread.sleep(400)
             }
