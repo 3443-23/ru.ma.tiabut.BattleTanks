@@ -21,6 +21,7 @@ import com.example.rumatiabutbattletanks.databinding.ActivityMainBinding
 import com.example.rumatiabutbattletanks.drawers.BulletDrawer
 import com.example.rumatiabutbattletanks.drawers.GridDrawer
 import com.example.rumatiabutbattletanks.drawers.ElementsDrawer
+import com.example.rumatiabutbattletanks.drawers.EnemyDrawer
 import com.example.rumatiabutbattletanks.drawers.TankDrawer
 import com.example.rumatiabutbattletanks.enums.Material
 
@@ -50,6 +51,10 @@ class MainActivity : AppCompatActivity() {
         LevelStorage( this )
     }
 
+    private val enemyDrawer by lazy {
+        EnemyDrawer(binding.container)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -62,14 +67,6 @@ class MainActivity : AppCompatActivity() {
         binding.editorConcrete.setOnClickListener { elementsDrawer.currentMaterial = Material.CONCRETE }
         binding.editorGrass.setOnClickListener { elementsDrawer.currentMaterial = Material.GRASS }
         binding.editorEagle.setOnClickListener { elementsDrawer.currentMaterial = Material.EAGLE }
-        binding.editorEnemyRespawn.setOnClickListener {
-            elementsDrawer.currentMaterial = Material.ENEMY_TANK_RESPAWN
-        }
-
-        binding.editorPlayerRespawn.setOnClickListener {
-            elementsDrawer.currentMaterial = Material.PLAYER_TANK_RESPAWN
-        }
-
         binding.container.setOnTouchListener { _, event -> elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
         }
@@ -89,13 +86,11 @@ class MainActivity : AppCompatActivity() {
     private fun showSettings() {
         gridDrawer.drawGrid()
         binding.materialsContainer.visibility = VISIBLE
-        elementsDrawer.changeElementsVisibility(editMode = true)
     }
 
     private fun hideSettings() {
         gridDrawer.removeGrid()
-        binding.materialsContainer.visibility = GONE
-        elementsDrawer.changeElementsVisibility(editMode = false)
+        binding.materialsContainer.visibility = INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -115,8 +110,20 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.menu_play -> {
+                startTheGame()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun startTheGame() {
+        if (editMode) {
+            return
+        }
+        enemyDrawer.startEnemyDrawing(elementsDrawer.elementsOnContainer)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

@@ -1,5 +1,6 @@
 package com.example.rumatiabutbattletanks.drawers
 
+import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import com.example.rumatiabutbattletanks.CELL_SIZE
 import com.example.rumatiabutbattletanks.enums.Material
 import com.example.rumatiabutbattletanks.models.Coordinate
 import com.example.rumatiabutbattletanks.models.Element
+import com.example.rumatiabutbattletanks.utils.drawElement
 import com.example.rumatiabutbattletanks.utils.getElementByCoordinates
 
 class ElementsDrawer(val container: FrameLayout) {
@@ -21,21 +23,6 @@ class ElementsDrawer(val container: FrameLayout) {
             eraseView(coordinate)
         } else {
             drawOrReplaceView(coordinate)
-        }
-    }
-
-    fun changeElementsVisibility(editMode: Boolean) {
-        elementsOnContainer
-            .filter { it.material.visibleInEditableMode }
-            .forEach { setViewIdVisibility(it.viewId, editMode) }
-    }
-
-    private fun setViewIdVisibility(viewId: Int, editMode: Boolean) {
-        val view = container.findViewById<View>(viewId)
-        if (editMode) {
-            view.visibility = View.VISIBLE
-        } else {
-            view.visibility = View.GONE
         }
     }
 
@@ -115,21 +102,13 @@ class ElementsDrawer(val container: FrameLayout) {
 
     private fun drawView(coordinate: Coordinate) {
         removeUnwantedInstances()
-        val view = ImageView(container.context)
-        val layoutParams = FrameLayout.LayoutParams(currentMaterial.width*CELL_SIZE, currentMaterial.height*CELL_SIZE)
-        view.setImageResource(currentMaterial.image)
-        layoutParams.topMargin = coordinate.top
-        layoutParams.leftMargin = coordinate.left
         val element = Element(
             material = currentMaterial,
             coordinate = coordinate,
             width = currentMaterial.width,
             height = currentMaterial.height
         )
-        view.id = element.viewId
-        view.layoutParams = layoutParams
-        view.scaleType = ImageView.ScaleType.FIT_XY
-        container.addView(view)
+        element.drawElement(container)
         elementsOnContainer.add(element)
     }
 }
